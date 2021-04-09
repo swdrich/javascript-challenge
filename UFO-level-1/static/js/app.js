@@ -43,11 +43,19 @@ function runEnter() {
     // Filter
     var filteredByDate = tableData.filter(sighting => sighting.datetime === inputValue);
     console.log(filteredByDate);
-    return filteredByDate;
-
+    
     // Clear table
+    d3.select("tbody").selectAll("tr").remove();
 
-
+    // Add filtered data to table
+    filteredByDate.forEach((ufoSighting) => {
+        var row = tbody.append("tr");
+        Object.entries(ufoSighting).forEach(([key, value]) => {
+            var cell = row.append("td");
+            cell.text(value);
+        });
+    });
+    // Add print statement
+    console.log("filtering complete")
 };
-
 
