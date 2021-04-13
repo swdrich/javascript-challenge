@@ -69,23 +69,8 @@ clearButton.on("click", runClear);
 
 function runClear() {
     console.log("clearing filters");
-    // prevent refresh
-    // d3.event.preventDefault();
-
-    // Clear input field
-    var inputElement = d3.select("datetime");
-
-    var inputValue = inputElement.property("value");
-
-    d3.select(inputValue).remove();
-
-    // repopulate table
-    tableData.forEach((ufoSighting) => {
-        var row = tbody.append("tr");
-        Object.entries(ufoSighting).forEach(([key, value]) => {
-            var cell = row.append("td");
-            cell.text(value);
-        });
-    });
+    
+    location.reload();
+    
     console.log(tableData);
 };
