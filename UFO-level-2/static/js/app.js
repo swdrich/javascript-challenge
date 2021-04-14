@@ -25,20 +25,7 @@ var button = d3.select("#filter-btn");
 
 // Create event handlers
 form.on("submit", runEnter);
-button.on("click", findActiveFilters);
-
-// I'm borrowing this approach: https://itnext.io/one-approach-to-filtering-a-d3-interactive-dashboard-f63e0244f77d
-
-let filters = [{key:"Date", value:""},
-               {key:"City", value:""},
-               {key:"State", value:""},
-               {key:"Country", value:""},
-               {key:"Shape", value:""}];
-
-function findActiveFilters() {
-    return filters.filter(d => d.value);
-}
-console.log(filters);
+button.on("click", runEnter);
 
 // Build out function
 function runEnter() {
@@ -48,26 +35,65 @@ function runEnter() {
     d3.event.preventDefault();
 
     // Filter by Date
-    var inputDate = d3.select("#datetime");
-    var dateValue = inputDate.property("value");
+    var dateValue = d3.select("#datetime").property("value");
     console.log(dateValue);
 
+    if (dateValue === "") {
+        var filteredByDate = tableData;
+    } else {
     var filteredByDate = tableData.filter(sighting => sighting.datetime === dateValue);
+    }
     console.log(filteredByDate);
 
     // Filter by City
-    var inputCity = d3.select("#city");
-    var cityValue = inputCity.property("value");
+    var cityValue = d3.select("#city").property("value");
     console.log(cityValue);
     
-    var filteredByCity = filteredByDate.filter(sighting => sighting.city === cityValue);
+    if (cityValue === "") {
+        var filteredByCity = filteredByDate;
+    } else {
+        var filteredByCity = filteredByDate.filter(sighting => sighting.city === cityValue);
+    }
     console.log(filteredByCity);
+
+    // Filter by State
+    var stateValue = d3.select("#state").property("value");
+    console.log(stateValue);
+
+    if (stateValue === "") {
+        var filteredByState = filteredByCity;
+    } else {
+        var filteredByState = filteredByCity.filter(sighting => sighting.state === stateValue);
+    }
+    console.log(filteredByState);
+
+    // Filter by Country
+    var countryValue = d3.select("#country").property("value");
+    console.log(countryValue);
+
+    if (countryValue === "") {
+        var filteredByCountry = filteredByState;
+    } else {
+        var filteredByCountry = filteredByState.filter(sighting => sighting.country === countryValue);
+    }
+    console.log(filteredByCountry);
+
+    // Filter by Shape
+    var shapeValue = d3.select("#shape").property("value");
+    console.log(shapeValue);
+
+    if (shapeValue === "") {
+        var filteredByShape = filteredByCountry;
+    } else {
+        var filteredByShape = filteredByCountry.filter(sighting => sighting.shape === shapeValue);
+    }
+    console.log(shapeValue);
 
     // Clear table
     d3.select("tbody").selectAll("tr").remove();
 
     // Add filtered data to table
-    filteredByCity.forEach((ufoSighting) => {
+    filteredByShape.forEach((ufoSighting) => {
         var row = tbody.append("tr");
         Object.entries(ufoSighting).forEach(([key, value]) => {
             var cell = row.append("td");
